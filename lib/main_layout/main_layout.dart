@@ -16,10 +16,10 @@ class MainLayout extends StatefulWidget {
     this.supportedLocales = const <Locale>[Locale('en', 'US')],
     this.lightTheme,
     this.darkTheme,
-    //this.isDarkMode = false,
     this.title = "",
     required this.mainMenu,
     this.appBarTitle,
+    this.appBarActions = const [],
     this.floatingActionButton,
     this.bottomNavigationBar,
     this.bottomSheet,
@@ -45,7 +45,6 @@ class MainLayout extends StatefulWidget {
     _mTabOpenedList = TabOpenedList();
     TabManager.mainLayout = this;
     TabManager.tabOpenedList = _mTabOpenedList;
-    // _mMainLayoutState = _MainLayoutState(darkMode: isDarkMode);
     _mMainLayoutState = _MainLayoutState();
   }
 
@@ -59,9 +58,9 @@ class MainLayout extends StatefulWidget {
   final ThemeData? lightTheme;
   final ThemeData? darkTheme;
 
-  //final bool isDarkMode;
   final MainMenu mainMenu;
   final Text? appBarTitle;
+  final List<Widget> appBarActions;
   final Widget? floatingActionButton;
   final Widget? bottomNavigationBar;
   final Widget? bottomSheet;
@@ -86,26 +85,16 @@ class MainLayout extends StatefulWidget {
 
   void rebuild() => _mMainLayoutState.rebuild();
 
-  // void changeDarkMode() {
-  //   _mMainLayoutState.darkMode = !_mMainLayoutState.darkMode;
-  //   rebuild();
-  // }
-
   @override
   // ignore: no_logic_in_create_state
   State<MainLayout> createState() => _mMainLayoutState;
 }
 
 class _MainLayoutState extends State<MainLayout> with TickerProviderStateMixin {
-  // _MainLayoutState({
-  //    required this.darkMode
-  // });
 
   _MainLayoutState();
 
   late TabController _mTabController;
-
-  //bool darkMode;
 
   /// Init state, is called whenever the widget is rebuilt
   @override
@@ -153,7 +142,7 @@ class _MainLayoutState extends State<MainLayout> with TickerProviderStateMixin {
           appBar: AppBar(
             backgroundColor: theme.colorScheme.inversePrimary,
             title: widget.appBarTitle,
-            actions: [...[], widget._mTabOpenedList],
+            actions: [...widget.appBarActions, widget._mTabOpenedList],
           ),
           body: SafeArea(
             child: Column(

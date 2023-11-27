@@ -62,9 +62,13 @@ class _TabOpenedListState extends State<TabOpenedList> {
             child: Text(widget.selectTabTile),
           ),
           ..._mOpenedTabList.mapIndexed<DropdownMenuItem<Key>>((index, label) {
+            var label = _mOpenedTabList[index].label.length > 15
+                ? "${_mOpenedTabList[index].label.substring(0, 15)}..."
+                : _mOpenedTabList[index].label;
+
             return DropdownMenuItem(
               value: _mOpenedTabList[index].key,
-              child: Text(_mOpenedTabList[index].label),
+              child: Text(label),
             );
           }).toList(),
         ],

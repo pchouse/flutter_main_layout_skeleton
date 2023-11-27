@@ -11,28 +11,32 @@ class TabManager {
   static int selectedTabIndex = 0;
 
   /// Add a tab to the stack
-  static void addTab(String title, Widget body, Key key) {
+  static void addTab(Icon? icon, String label, Widget body, Key key) {
     if (setSelectedTabKey(key)) return;
 
-    Widget tabTitle = Row(
-      children: [
-        Text(title),
-        SizedBox(
-          height: 25,
-          width: 25,
-          child: GestureDetector(
-              onTap: () {
-                removeTab(key);
-              },
-              child: const Icon(Icons.close)),
-        ),
-      ],
+    var tabTitleChildren = <Widget>[];
+    if (icon != null) tabTitleChildren.add(icon);
+    tabTitleChildren.add(Text(label));
+    tabTitleChildren.add(
+      SizedBox(
+        height: 25,
+        width: 25,
+        child: GestureDetector(
+            onTap: () {
+              removeTab(key);
+            },
+            child: const Icon(Icons.close)),
+      ),
     );
 
-    tabs.add(m_tab.Tab(title, tabTitle, body, key));
+    Widget tabTitle = Row(
+      children: tabTitleChildren,
+    );
+
+    tabs.add(m_tab.Tab(label, tabTitle, body, key));
     selectedTabIndex = tabs.length - 1 < 0 ? 0 : tabs.length - 1;
     mainLayout.rebuild();
-    tabOpenedList.addTab(TabOpenedItem(title, key));
+    tabOpenedList.addTab(TabOpenedItem(label, key));
   }
 
   /// Remove tab from stack
